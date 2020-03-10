@@ -1,0 +1,37 @@
+h1 ユーザー一覧
+
+
+
+/検索機能を実装したい！！
+/= search_form_for @q, class: 'mb-5' do |f|
+  .form-group.row
+    = f.label :name_cont, '検索 ', class: 'col-sm-1.5 col-form-label'
+    .col-sm-5
+      = f.search_field :name_cont, class: 'form-control'
+    .form-group
+      = f.submit class: 'btn btn-outline-primary'
+
+
+= link_to '新規登録', new_admin_user_path, class: 'btn btn-primary'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+    tr
+      th= User.human_attribute_name(:name)
+      th= User.human_attribute_name(:email)
+      th= User.human_attribute_name(:admin)
+      th= User.human_attribute_name(:created_at)
+      th= User.human_attribute_name(:updated_at)
+      th
+  tbody
+    - @users.each do |user|
+      tr
+        td= link_to user.name, [:admin, user]
+        td= user.email
+        td= user.admin? ? 'あり' : 'なし'
+        td= user.created_at
+        td= user.updated_at
+        td
+          = link_to '編集', edit_admin_user_path(user), class: 'btn btn-primary mr-3'
+          = link_to '削除', [:admin, user], method: :delete, data: {confirm: "ユーザー「#{user.name}」を削除します。よろしいですか？"}, class: 'btn btn-danger'
